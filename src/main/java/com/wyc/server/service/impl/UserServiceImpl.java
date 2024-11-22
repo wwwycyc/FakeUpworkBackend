@@ -7,6 +7,7 @@ import com.wyc.server.mapper.UserMapper;
 import com.wyc.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 
 @Service
@@ -46,5 +47,16 @@ public class UserServiceImpl implements UserService {
         user.setPassword(DigestUtils.md5DigestAsHex(password.getBytes()));
         user.setName(name);
         userMapper.add(user);
+    }
+
+    @Override
+    public void updatepersonaldate(User user) {
+//        String username = user.getUsername();
+//        byte[] avater= user.getAvater();
+//        byte[] cardImage= user.getCardImage();
+//        String name= user.getName();
+//        String email= user.getEmail();
+//        String resume= user.getResume();
+        userMapper.updatepersonaldate(user);
     }
 }

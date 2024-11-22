@@ -2,4 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.wyc.server.mapper.UserMapper">
+    <!-- 更新用户信息 -->
+    <update id="updatepersonaldate" parameterType="com.wyc.pojo.Entity.User">
+        UPDATE user
+        <set>
+            <if test="cardImage != null and cardImage != ''">
+                card_image = #{cardImage},
+            </if>
+            <if test="avatar != null and avatar != ''">
+                avatar = #{avatar},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="resume != null and resume != ''">
+                resume = #{resume},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+        </set>
+        WHERE username = #{username}
+    </update>
 </mapper>

@@ -15,11 +15,9 @@ public class User implements Serializable {
     private String username;
     private String password;
     private String name;
-    private int identity;
-    private int DI;
-    private int AI;
-    private int DC;
-
-    private byte[] picture;
-    private String introduction;
+    private byte[] cardImage;//名片
+    private String resume;
+    private String email;
+    private byte[] avatar;//头像
+    private float star;
 }

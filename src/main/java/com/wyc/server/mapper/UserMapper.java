@@ -4,6 +4,7 @@ import com.wyc.pojo.Entity.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 @Mapper
 public interface UserMapper {
@@ -17,4 +18,6 @@ public interface UserMapper {
 
     @Insert("insert into user ( username, password,name) " + "values"+"(#{username},#{password},#{name})")
     void add(User user);
+
+    void updatepersonaldate(User user);
 }

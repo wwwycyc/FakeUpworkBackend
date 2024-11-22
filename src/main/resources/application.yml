@@ -7,32 +7,33 @@ spring:
   main:
     allow-circular-references: true
   datasource:
-      driver-class-name: ${fakeupwork.datasource.driver-class-name}
-      url: jdbc:mysql://${fakeupwork.datasource.host}:${fakeupwork.datasource.port}/${fakeupwork.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
-      username: ${fakeupwork.datasource.username}
-      password: ${fakeupwork.datasource.password}
+    driver-class-name: ${fakeupwork.datasource.driver-class-name}
+    url: jdbc:mysql://${fakeupwork.datasource.host}:${fakeupwork.datasource.port}/${fakeupwork.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+    username: ${fakeupwork.datasource.username}
+    password: ${fakeupwork.datasource.password}
 
 mybatis:
-  #mapper配置文件
+  # mapper配置文件
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.wyc.pojo.Entity
   configuration:
-    #开启驼峰命名
+    # 开启驼峰命名
     map-underscore-to-camel-case: true
+    # 启用 MyBatis SQL 日志
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 logging:
   level:
-    com:
-      sky:
-        mapper: debug
-        service: info
-        controller: info
+    org.mybatis: debug  # 设置 MyBatis 的日志级别为 debug，输出详细的 SQL 日志
+    com.wyc.server.mapper: debug  # 如果你想只输出特定包（例如你的 Mapper 包）的日志，可以添加这一行
+    com.wyc.server.controller: info  # 控制器日志级别为 info
+    com.wyc.server.service: info  # 服务层日志级别为 info
 
 wyc:
   jwt:
-    # 设置jwt签名加密时使用的秘钥
+    # 设置 jwt 签名加密时使用的秘钥
     secret-key: fakeupworkwyc
-    # 设置jwt过期时间
+    # 设置 jwt 过期时间
     ttl: 7200000
     # 设置前端传递过来的令牌名称
     token-name: token
