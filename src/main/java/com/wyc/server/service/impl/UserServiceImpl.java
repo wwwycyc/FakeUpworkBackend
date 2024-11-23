@@ -51,12 +51,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updatepersonaldate(User user) {
-//        String username = user.getUsername();
-//        byte[] avater= user.getAvater();
-//        byte[] cardImage= user.getCardImage();
-//        String name= user.getName();
-//        String email= user.getEmail();
-//        String resume= user.getResume();
         userMapper.updatepersonaldate(user);
+    }
+
+    @Override
+    public User getuserbyusername(String username) {
+        User user = userMapper.getByUsername(username);
+        if (user==null){
+            throw new RuntimeException("账号不存在");
+        }
+        return user;
     }
 }

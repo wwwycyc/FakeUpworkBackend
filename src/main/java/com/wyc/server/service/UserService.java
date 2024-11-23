@@ -7,6 +7,6 @@ import com.wyc.pojo.Entity.User;
 public interface UserService {
     User login(UserLoginDTO userLoginDTO);
     void signup(UserSignUpDTO userSignUpDTO);
-
     void updatepersonaldate(User user);
+    User getuserbyusername(String username);
 }

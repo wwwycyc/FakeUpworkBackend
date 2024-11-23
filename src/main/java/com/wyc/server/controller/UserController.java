@@ -6,6 +6,8 @@ import com.wyc.common.utils.JwtUtil;
 import com.wyc.pojo.DTO.UserLoginDTO;
 import com.wyc.pojo.DTO.UserSignUpDTO;
 import com.wyc.pojo.Entity.User;
+import com.wyc.pojo.VO.ImageVO;
+import com.wyc.pojo.VO.UserCardVO;
 import com.wyc.pojo.VO.UserLoginVO;
 import com.wyc.server.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -51,10 +53,33 @@ public class UserController {
         return Result.success("注册成功");
     }
 
+    @GetMapping("/getavatar")
+    public Result getavatar(@RequestParam String username){
+        log.info("获取{}的头像", username);
+        User user=userService.getuserbyusername(username);
+        ImageVO imageVO = ImageVO.builder()
+                .image(user.getAvatar())
+                .build();
+        return Result.success(imageVO);
+    }
+
     @PostMapping("/about/updatepersonaldate")
     public Result updatepersonaldate(@RequestBody User user){
         log.info("更新用户数据: {}", user);
         userService.updatepersonaldate(user);
         return Result.success("更新成功");
+    }
+
+    @GetMapping("/about/userCard")
+    public Result getusercard(@RequestParam String username){
+        log.info("获取{}的card相关数据", username);
+        User user=userService.getuserbyusername(username);
+        UserCardVO userCardVO=UserCardVO.builder()
+                .name(user.getName())
+                .cardImage(user.getCardImage())
+                .star(user.getStar())
+                .email(user.getEmail())
+                .build();
+        return Result.success(userCardVO);
     }
 }
