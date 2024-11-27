@@ -16,6 +16,7 @@ public class User implements Serializable {
     private String password;
     private String name;
     private byte[] cardImage;//名片
+    private String introduction;
     private String resume;
     private String email;
     private byte[] avatar;//头像

@@ -22,4 +22,6 @@ public interface UserMapper {
 
     void updatepersonaldate(User user);
 
+    @Update("update user set resume=#{content} where username=#{username}")
+    void updateResume(String content, String username);
 }

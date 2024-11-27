@@ -62,4 +62,10 @@ public class UserServiceImpl implements UserService {
         }
         return user;
     }
+
+    @Override
+    public User updateResume(String content, String username) {
+        userMapper.updateResume(content,username);
+        return userMapper.getByUsername(username);
+    }
 }

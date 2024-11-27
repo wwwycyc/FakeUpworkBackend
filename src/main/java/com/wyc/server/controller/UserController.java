@@ -7,6 +7,7 @@ import com.wyc.pojo.DTO.UserLoginDTO;
 import com.wyc.pojo.DTO.UserSignUpDTO;
 import com.wyc.pojo.Entity.User;
 import com.wyc.pojo.VO.ImageVO;
+import com.wyc.pojo.VO.ResumeVO;
 import com.wyc.pojo.VO.UserCardVO;
 import com.wyc.pojo.VO.UserLoginVO;
 import com.wyc.server.service.UserService;
@@ -81,5 +82,15 @@ public class UserController {
                 .email(user.getEmail())
                 .build();
         return Result.success(userCardVO);
+    }
+
+    @PostMapping("/about/resume")
+    public Result updateResume(@RequestParam("content")String content,@RequestParam("username")String username){
+        log.info("保存{}的resume相关数据", username);
+        User user = userService.updateResume(content,username);
+        ResumeVO resumeVO=ResumeVO.builder()
+                .content(user.getResume())
+                .build();
+        return Result.success(resumeVO);
     }
 }

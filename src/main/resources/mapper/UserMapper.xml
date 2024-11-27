@@ -15,8 +15,8 @@
             <if test="name != null and name != ''">
                 name = #{name},
             </if>
-            <if test="resume != null and resume != ''">
-                resume = #{resume},
+            <if test="introduction != null and introduction != ''">
+                introduction = #{introduction},
             </if>
             <if test="email != null and email != ''">
                 email = #{email},

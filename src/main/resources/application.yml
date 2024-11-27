@@ -12,6 +12,16 @@ spring:
     username: ${fakeupwork.datasource.username}
     password: ${fakeupwork.datasource.password}
 
+  # 文件上传相关配置
+  servlet:
+    multipart:
+      enabled: true  # 启用文件上传功能
+      max-file-size: 10MB  # 设置单个文件的最大大小
+      max-request-size: 10MB  # 设置请求体的最大大小
+  # 上传文件的存储路径
+  file:
+    upload-dir: uploads  # 上传文件存储的目录，可以配置为服务器上的绝对路径
+
 mybatis:
   # mapper配置文件
   mapper-locations: classpath:mapper/*.xml
@@ -25,9 +35,20 @@ mybatis:
 logging:
   level:
     org.mybatis: debug  # 设置 MyBatis 的日志级别为 debug，输出详细的 SQL 日志
-    com.wyc.server.mapper: debug  # 如果你想只输出特定包（例如你的 Mapper 包）的日志，可以添加这一行
-    com.wyc.server.controller: info  # 控制器日志级别为 info
-    com.wyc.server.service: info  # 服务层日志级别为 info
+    com.wyc.server.mapper: debug  # 如果你想只输出特定包（例如你的 Mapper 包）的日志
+    com.wyc.server.controller: debug  # 控制器日志级别为 debug，查看请求的详细信息
+    com.wyc.server.service: debug  # 服务层日志级别为 debug，查看服务层的调用和处理
+    root: debug  # 设置根日志级别为 debug，输出所有的日志信息
+
+  pattern:
+    console: '%d{yyyy-MM-dd HH:mm:ss} - %msg%n'  # 控制台输出日志的格式
+    file: '%d{yyyy-MM-dd HH:mm:ss} - %msg%n'  # 文件输出日志的格式（如果有文件配置）
+
+  file:
+    name: logs/application.log  # 将日志输出到文件
+    max-size: 10MB  # 文件大小超过10MB时会滚动
+    max-history: 30  # 保留30个日志文件
+
 
 wyc:
   jwt:
