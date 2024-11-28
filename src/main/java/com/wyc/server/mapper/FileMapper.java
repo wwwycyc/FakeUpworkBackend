@@ -9,6 +9,6 @@ public interface FileMapper {
             "(#{fileName}, #{fileUrl}, #{userId})")
     void saveFile(FileEntity file);
 
-    @Select("select * from file where file_name=file_name")
+    @Select("select * from file where file_name=#{fileName}")
     FileEntity findFileByFileName(String fileName);
 }
