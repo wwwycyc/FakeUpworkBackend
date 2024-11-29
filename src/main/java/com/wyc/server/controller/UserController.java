@@ -40,8 +40,7 @@ public class UserController {
                 claims);
 
         UserLoginVO employeeLoginVO = UserLoginVO.builder()
-                .username(user.getUsername())
-                .name(user.getName())
+                .user(user)
                 .token(token)
                 .build();
 
@@ -84,7 +83,7 @@ public class UserController {
         return Result.success(userCardVO);
     }
 
-    @PostMapping("/about/resume")
+    @PostMapping("/about/saveResume")
     public Result updateResume(@RequestParam("content")String content,@RequestParam("username")String username){
         log.info("保存{}的resume相关数据", username);
         User user = userService.updateResume(content,username);
@@ -92,5 +91,12 @@ public class UserController {
                 .content(user.getResume())
                 .build();
         return Result.success(resumeVO);
+    }
+    @GetMapping("/about/getResume")
+    public Result getResume(@RequestParam("username")String username){
+        log.info("获取resume内容");
+        User user = userService.getuserbyusername(username);
+        String resume=user.getResume();
+        return Result.success(resume);
     }
 }

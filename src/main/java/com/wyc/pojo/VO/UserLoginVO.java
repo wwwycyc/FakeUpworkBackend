@@ -1,5 +1,6 @@
 package com.wyc.pojo.VO;
 
+import com.wyc.pojo.Entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +13,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserLoginVO implements Serializable {
-    private String username;
-    private String name;
+    private User user;
     private String token;
 }
