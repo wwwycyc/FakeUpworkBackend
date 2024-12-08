@@ -43,8 +43,7 @@ public class UserController {
                 .user(user)
                 .token(token)
                 .build();
-
-        return Result.success(employeeLoginVO);
+        return Result.success("欢迎"+user.getName(),employeeLoginVO);
     }
     @PostMapping("/signup")
     public Result signup(@RequestBody UserSignUpDTO userSignUpDTO){
@@ -90,7 +89,7 @@ public class UserController {
         ResumeVO resumeVO=ResumeVO.builder()
                 .content(user.getResume())
                 .build();
-        return Result.success(resumeVO);
+        return Result.success("保存成功",resumeVO);
     }
     @GetMapping("/about/getResume")
     public Result getResume(@RequestParam("username")String username){

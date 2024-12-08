@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wyc.server.mapper.WorkMapper">
+
+    <!-- 查询与 talentIds 相关的 workcards -->
+    <select id="getWorkcardsByTalentIds" resultType="com.wyc.pojo.Entity.Work">
+        SELECT *
+        FROM work
+        JOIN work_talent ON work.work_id = work_talent.work_id
+        WHERE work_talent.talent_id IN
+        <foreach item="item" collection="talentIds" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+<!--    <select id="getOnesWorkcardsByTalentIds" resultType="com.wyc.pojo.Entity.Work">-->
+<!--        SELECT work.*-->
+<!--        FROM work-->
+<!--        JOIN work_talent ON work.work_id = work_talent.work_id-->
+<!--        WHERE 1=1-->
+<!--        <if test="talentIds != null and talentIds.size() > 0">-->
+<!--           AND work_talent.talent_id IN-->
+<!--            <foreach item="item" collection="talentIds" open="(" separator="," close=")">-->
+<!--                #{item}-->
+<!--            </foreach>-->
+<!--        </if>-->
+<!--        <if test="username != null">-->
+<!--            AND work.poster = #{username}-->
+<!--        </if>-->
+<!--    </select>-->
+    <select id="getOnesWorkcardsByTalentIds" resultType="com.wyc.pojo.Entity.Work">
+        SELECT work.*, work_talent.talent_id AS talentId
+        FROM work
+        JOIN work_talent ON work.work_id = work_talent.work_id
+        WHERE 1=1
+        <if test="talentIds != null and talentIds.size() > 0">
+            AND work_talent.talent_id IN
+            <foreach item="item" collection="talentIds" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="username != null">
+            AND work.poster = #{username}
+        </if>
+    </select>
+
+</mapper>

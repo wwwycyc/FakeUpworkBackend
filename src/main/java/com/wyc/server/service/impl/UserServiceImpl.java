@@ -1,5 +1,6 @@
 package com.wyc.server.service.impl;
 
+import com.wyc.common.exception.BaseException;
 import com.wyc.pojo.DTO.UserLoginDTO;
 import com.wyc.pojo.DTO.UserSignUpDTO;
 import com.wyc.pojo.Entity.User;
@@ -23,16 +24,15 @@ public class UserServiceImpl implements UserService {
 
         User user = userMapper.getByUsername(username);
         if (user==null){
-            throw new RuntimeException("账号不存在");
+            throw new BaseException("账号不存在");
         }
         //密码比对
         //对前端传来的密码进行md5加密处理
         password = DigestUtils.md5DigestAsHex(password.getBytes());
         if (!password.equals(user.getPassword())) {
             //密码错误
-            throw new RuntimeException("密码错误");
+            throw new BaseException("密码错误");
         }
-
         //3、返回实体对象
         return user;
     }

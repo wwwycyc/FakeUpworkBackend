@@ -2,8 +2,10 @@ package com.wyc.server.mapper;
 
 import com.wyc.pojo.Entity.FileEntity;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+@Mapper
 public interface FileMapper {
     @Insert("insert into file (file_name, file_url, user_id) VALUES " +
             "(#{fileName}, #{fileUrl}, #{userId})")

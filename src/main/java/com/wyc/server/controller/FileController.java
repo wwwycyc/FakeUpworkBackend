@@ -4,7 +4,6 @@ import com.wyc.common.result.Result;
 import com.wyc.pojo.Entity.FileEntity;
 import com.wyc.server.service.FileService;
 import jakarta.servlet.ServletOutputStream;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +18,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.UUID;
 
-import static com.wyc.common.UrlConstant.ServerLocation;
+import static com.wyc.common.constant.UrlConstant.ServerLocation;
 
 @RestController
 @RequestMapping("/uploads")
@@ -36,7 +34,7 @@ public class FileController {
     private String uploadDir;
 
     // 文件上传接口
-    @PostMapping("/resume")
+    @PostMapping
     public Result uploadFile(@RequestParam("file") MultipartFile file,
                              @RequestParam("username") String username,
                              @RequestParam("location") String location) {
