@@ -1,11 +1,12 @@
 package com.wyc.server.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wyc.common.result.Result;
 import com.wyc.pojo.DTO.OnesWorkCardByTalentIdsDO;
 import com.wyc.pojo.DTO.PostWorkDTO;
 import com.wyc.pojo.Entity.Talent;
-import com.wyc.pojo.Entity.Work;
+import com.wyc.pojo.Entity.WorkCard;
+import com.wyc.pojo.VO.PosterVO;
+import com.wyc.pojo.VO.WorkDetailsVO;
 import com.wyc.pojo.VO.WorkInitVO;
 import com.wyc.server.service.WorkService;
 import lombok.extern.slf4j.Slf4j;
@@ -57,8 +58,8 @@ public class WorkContorller {
                 .collect(Collectors.toList());  // 收集为 List<Integer> 类型
         log.info("开始获取{}的标签为{}的工作卡片", username, talentIds);
         try {
-            List<Work> workCards = workService.getOnesWorkcardsByTalentIds(username, talentIds);
-            return Result.success(workCards);
+            List<WorkCard> workCardCards = workService.getOnesWorkcardsByTalentIds(username, talentIds);
+            return Result.success(workCardCards);
         } catch (Exception e) {
             log.error("获取工作卡片失败", e);
             return Result.error("服务器内部错误");
@@ -87,5 +88,20 @@ public class WorkContorller {
                 .build();
         workService.savePostWork(postWorkDTO);
         return Result.success();
+    }
+    @GetMapping("/getWorkDetailsByWorkId")
+    public Result getWorkByWorkId(@RequestParam("workId") Integer workId){
+        log.info("获取workId为{}的内容",workId);
+        WorkDetailsVO workDetailsVO = workService.getWorkDetailsByWorkId(workId);
+        return Result.success(workDetailsVO);
+    }
+
+    @GetMapping("/getPosterByWorkId")
+    public Result getPosterByWorkId(@RequestParam("workId") Integer workId){
+        log.info("获取workId为{}的Poster",workId);
+        PosterVO poster=PosterVO.builder()
+                .username(workService.getPosterByWorkId(workId))
+                .build();
+        return Result.success(poster);
     }
 }
