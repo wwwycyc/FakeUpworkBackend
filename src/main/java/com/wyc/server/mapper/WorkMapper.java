@@ -47,4 +47,13 @@ public interface WorkMapper {
 
     @Delete("DELETE from work where work_id=#{workId}")
     void deleteByWorkId(Integer workId);
+
+    @Select("select need_id from work_need where work_id=#{workId}")
+    Integer getNeedIdByWorkId(Integer workId);
+
+    @Select("select part_id from work_part where work_id=#{workId}")
+    Integer getPartIdByWorkId(Integer workId);
+
+    @Select("select talent_id from work_talent where work_id=#{workId}")
+    List<Integer> getTalentIdsByWorkId(Integer workId);
 }

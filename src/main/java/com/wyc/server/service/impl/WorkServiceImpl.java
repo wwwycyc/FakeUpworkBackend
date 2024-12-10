@@ -5,6 +5,7 @@ import com.wyc.pojo.DTO.PostWorkDTO;
 import com.wyc.pojo.Entity.Talent;
 import com.wyc.pojo.Entity.Work;
 import com.wyc.pojo.Entity.WorkCard;
+import com.wyc.pojo.VO.EditWorkVO;
 import com.wyc.pojo.VO.WorkDetailsVO;
 import com.wyc.server.mapper.WorkMapper;
 import com.wyc.server.service.WorkService;
@@ -105,5 +106,29 @@ public class WorkServiceImpl implements WorkService {
         for(Integer workId : workIds){
             workMapper.deleteByWorkId(workId);
         }
+    }
+
+    @Transactional
+    @Override
+    public EditWorkVO getWorkAllByWorkId(Integer workId) {
+        Work work = workMapper.getWorkByWorkId(workId);
+        if (work==null) throw new BaseException("无法找到当前Work");
+        Integer needId=workMapper.getNeedIdByWorkId(workId);
+        if (needId==null) throw new BaseException("无法找到当前Work的Need");
+        Integer partId=workMapper.getPartIdByWorkId(workId);
+        if (partId==null) throw new BaseException("无法找到当前Work的Part");
+        List<Integer> talentIds=workMapper.getTalentIdsByWorkId(workId);
+        if (talentIds==null) throw new BaseException("无法找到当前Work的Talent");
+        EditWorkVO editWorkVO= EditWorkVO.builder()
+                .workId(work.getWorkId())
+                .title(work.getTitle())
+                .introduction(work.getIntroduction())
+                .cover(work.getCover())
+                .content(work.getContent())
+                .needId(needId)
+                .partId(partId)
+                .talentIds(talentIds)
+                .build();
+        return editWorkVO;
     }
 }

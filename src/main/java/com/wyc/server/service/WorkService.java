@@ -3,6 +3,7 @@ package com.wyc.server.service;
 import com.wyc.pojo.DTO.PostWorkDTO;
 import com.wyc.pojo.Entity.Talent;
 import com.wyc.pojo.Entity.WorkCard;
+import com.wyc.pojo.VO.EditWorkVO;
 import com.wyc.pojo.VO.WorkDetailsVO;
 
 import java.util.List;
@@ -27,4 +28,6 @@ public interface WorkService {
     void deleteByWorkId(Integer workId);
 
     void deleteByWorkIdList(List<Integer> workIds);
+
+    EditWorkVO getWorkAllByWorkId(Integer workId);
 }

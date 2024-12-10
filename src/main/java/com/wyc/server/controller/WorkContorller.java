@@ -5,6 +5,7 @@ import com.wyc.pojo.DTO.OnesWorkCardByTalentIdsDO;
 import com.wyc.pojo.DTO.PostWorkDTO;
 import com.wyc.pojo.Entity.Talent;
 import com.wyc.pojo.Entity.WorkCard;
+import com.wyc.pojo.VO.EditWorkVO;
 import com.wyc.pojo.VO.PosterVO;
 import com.wyc.pojo.VO.WorkDetailsVO;
 import com.wyc.pojo.VO.WorkInitVO;
@@ -117,5 +118,12 @@ public class WorkContorller {
         log.info("删除Work,workId:{}",workIds);
         workService.deleteByWorkIdList(workIds);
         return Result.success("删除成功");
+    }
+
+    @GetMapping("/getWorkAllByWorkId")
+    public Result getWorkAllByWorkId(@RequestParam("workId")Integer workId){
+        log.info("获取Work,workId:{}",workId);
+        EditWorkVO editWorkVO = workService.getWorkAllByWorkId(workId);
+        return Result.success(editWorkVO);
     }
 }
