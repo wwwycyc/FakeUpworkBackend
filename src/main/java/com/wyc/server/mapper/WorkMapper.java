@@ -4,10 +4,8 @@ import com.wyc.pojo.Entity.Part;
 import com.wyc.pojo.Entity.Talent;
 import com.wyc.pojo.Entity.Work;
 import com.wyc.pojo.Entity.WorkCard;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 import java.util.List;
 
@@ -46,4 +44,7 @@ public interface WorkMapper {
 
     @Select("SELECT * from work where work_id=#{workId}")
     Work getWorkByWorkId(Integer workId);
+
+    @Delete("DELETE from work where work_id=#{workId}")
+    void deleteByWorkId(Integer workId);
 }

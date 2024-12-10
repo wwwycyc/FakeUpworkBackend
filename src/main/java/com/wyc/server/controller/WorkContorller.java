@@ -104,4 +104,18 @@ public class WorkContorller {
                 .build();
         return Result.success(poster);
     }
+
+    @DeleteMapping("/deleteByWorkId")
+    public Result deleteByWorkId(@RequestParam("workId")Integer workId){
+        log.info("删除Work,workId:{}",workId);
+        workService.deleteByWorkId(workId);
+        return Result.success("删除成功");
+    }
+
+    @DeleteMapping("/deleteByWorkIds")
+    public Result deleteByWorkIds(@RequestParam("workIds")List<Integer> workIds){
+        log.info("删除Work,workId:{}",workIds);
+        workService.deleteByWorkIdList(workIds);
+        return Result.success("删除成功");
+    }
 }

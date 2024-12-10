@@ -1,5 +1,6 @@
 package com.wyc.server.service.impl;
 
+import com.wyc.common.exception.BaseException;
 import com.wyc.pojo.DTO.PostWorkDTO;
 import com.wyc.pojo.Entity.Talent;
 import com.wyc.pojo.Entity.Work;
@@ -57,7 +58,7 @@ public class WorkServiceImpl implements WorkService {
         workMapper.saveWork(workCard);
         Integer workId = workCard.getWorkId();
         if (workId == null || workId == 0) {
-            throw new RuntimeException("Failed to insert work and obtain valid workId");
+            throw new BaseException("Work发布失败");
         }
         Integer needId= postWorkDTO.getNeedId();
         Integer partId= postWorkDTO.getPartId();
@@ -73,6 +74,9 @@ public class WorkServiceImpl implements WorkService {
     @Override
     public WorkDetailsVO getWorkDetailsByWorkId(Integer workId) {
         Work work=workMapper.getWorkByWorkId(workId);
+        if(work==null){
+            throw new BaseException("当前Work已被删除或不存在");
+        }
         WorkDetailsVO workDetailsVO=WorkDetailsVO.builder()
                 .title(work.getTitle())
                 .content(work.getContent())
@@ -84,7 +88,22 @@ public class WorkServiceImpl implements WorkService {
     @Override
     public String getPosterByWorkId(Integer workId) {
         Work work=workMapper.getWorkByWorkId(workId);
+        if(work==null){
+            throw new BaseException("当前Work已被删除或不存在");
+        }
         String username=work.getPoster();
         return username;
+    }
+
+    @Override
+    public void deleteByWorkId(Integer workId) {
+        workMapper.deleteByWorkId(workId);
+    }
+
+    @Override
+    public void deleteByWorkIdList(List<Integer> workIds) {
+        for(Integer workId : workIds){
+            workMapper.deleteByWorkId(workId);
+        }
     }
 }

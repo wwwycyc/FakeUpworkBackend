@@ -23,4 +23,8 @@ public interface WorkService {
     WorkDetailsVO getWorkDetailsByWorkId(Integer workId);
 
     String getPosterByWorkId(Integer workId);
+
+    void deleteByWorkId(Integer workId);
+
+    void deleteByWorkIdList(List<Integer> workIds);
 }
