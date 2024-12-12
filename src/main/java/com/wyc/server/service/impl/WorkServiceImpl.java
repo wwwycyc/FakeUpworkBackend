@@ -2,6 +2,7 @@ package com.wyc.server.service.impl;
 
 import com.wyc.common.exception.BaseException;
 import com.wyc.pojo.DTO.PostWorkDTO;
+import com.wyc.pojo.DTO.UpdateWorkDTO;
 import com.wyc.pojo.Entity.Talent;
 import com.wyc.pojo.Entity.Work;
 import com.wyc.pojo.Entity.WorkCard;
@@ -48,25 +49,25 @@ public class WorkServiceImpl implements WorkService {
     @Transactional
     @Override
     public void savePostWork(PostWorkDTO postWorkDTO) {
-        WorkCard workCard =new WorkCard();
-        workCard.setTitle(postWorkDTO.getTitle());
-        workCard.setIntroduction(postWorkDTO.getIntroduction());
-        workCard.setCover(postWorkDTO.getCover());
-        workCard.setContent(postWorkDTO.getContent());
-        workCard.setPoster(postWorkDTO.getPoster());
-        workCard.setPostDate(LocalDate.now());
-        workCard.setState(0);
-        workMapper.saveWork(workCard);
-        Integer workId = workCard.getWorkId();
+        Work work =Work.builder()
+                .title(postWorkDTO.getTitle())
+                .introduction(postWorkDTO.getIntroduction())
+                .cover(postWorkDTO.getCover())
+                .content(postWorkDTO.getContent())
+                .poster(postWorkDTO.getPoster())
+                .accepter(null)
+                .postDate(LocalDate.now())
+                .acceptDate(null)
+                .state(0)
+                .needId(postWorkDTO.getNeedId())
+                .partId(postWorkDTO.getPartId())
+                .build();
+        workMapper.saveWork(work);
+        Integer workId = work.getWorkId();
         if (workId == null || workId == 0) {
             throw new BaseException("Work发布失败");
         }
-        Integer needId= postWorkDTO.getNeedId();
-        Integer partId= postWorkDTO.getPartId();
         List<Integer> talentIds=postWorkDTO.getTalentIds();
-
-        workMapper.saveWork_Need(workId,needId);
-        workMapper.saveWork_Part(workId,partId);
         for(Integer talentId : talentIds){
             workMapper.saveWork_Talent(workId,talentId);
         }
@@ -113,10 +114,7 @@ public class WorkServiceImpl implements WorkService {
     public EditWorkVO getWorkAllByWorkId(Integer workId) {
         Work work = workMapper.getWorkByWorkId(workId);
         if (work==null) throw new BaseException("无法找到当前Work");
-        Integer needId=workMapper.getNeedIdByWorkId(workId);
-        if (needId==null) throw new BaseException("无法找到当前Work的Need");
-        Integer partId=workMapper.getPartIdByWorkId(workId);
-        if (partId==null) throw new BaseException("无法找到当前Work的Part");
+
         List<Integer> talentIds=workMapper.getTalentIdsByWorkId(workId);
         if (talentIds==null) throw new BaseException("无法找到当前Work的Talent");
         EditWorkVO editWorkVO= EditWorkVO.builder()
@@ -125,10 +123,19 @@ public class WorkServiceImpl implements WorkService {
                 .introduction(work.getIntroduction())
                 .cover(work.getCover())
                 .content(work.getContent())
-                .needId(needId)
-                .partId(partId)
+                .needId(work.getNeedId())
+                .partId(work.getPartId())
                 .talentIds(talentIds)
                 .build();
         return editWorkVO;
+    }
+
+    @Override
+    public void updateWork(UpdateWorkDTO updateWorkDTO) {
+        workMapper.updateWork(updateWorkDTO);
+        workMapper.deletWork_TalentByworkId(updateWorkDTO.getWorkId());
+        for(Integer talentId : updateWorkDTO.getTalentIds()){
+            workMapper.saveWork_Talent(updateWorkDTO.getWorkId(), talentId);
+        }
     }
 }

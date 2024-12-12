@@ -1,6 +1,7 @@
 package com.wyc.server.service;
 
 import com.wyc.pojo.DTO.PostWorkDTO;
+import com.wyc.pojo.DTO.UpdateWorkDTO;
 import com.wyc.pojo.Entity.Talent;
 import com.wyc.pojo.Entity.WorkCard;
 import com.wyc.pojo.VO.EditWorkVO;
@@ -30,4 +31,6 @@ public interface WorkService {
     void deleteByWorkIdList(List<Integer> workIds);
 
     EditWorkVO getWorkAllByWorkId(Integer workId);
+
+    void updateWork(UpdateWorkDTO updateWorkDTO);
 }

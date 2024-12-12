@@ -3,6 +3,7 @@ package com.wyc.server.controller;
 import com.wyc.common.result.Result;
 import com.wyc.pojo.DTO.OnesWorkCardByTalentIdsDO;
 import com.wyc.pojo.DTO.PostWorkDTO;
+import com.wyc.pojo.DTO.UpdateWorkDTO;
 import com.wyc.pojo.Entity.Talent;
 import com.wyc.pojo.Entity.WorkCard;
 import com.wyc.pojo.VO.EditWorkVO;
@@ -14,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,6 +26,10 @@ public class WorkContorller {
     @Autowired
     private WorkService workService;
 
+    /**
+     * 获取全部的Part和Talent，用于初始化页面和多选框
+     * @return
+     */
     @GetMapping("/init")
     public Result workInit(){
         WorkInitVO workInitVO=new WorkInitVO();
@@ -33,16 +39,34 @@ public class WorkContorller {
         workInitVO.setTalentType(talentlist);
         return Result.success(workInitVO);
     }
+
+    /**
+     * 获得所有Part的Name
+     * 好像没用到
+     * @return
+     */
     @GetMapping("/getPartType")
     public Result getAllPartTypeName(){
         List<String> list= workService.getAllPartTypeName();
         return Result.success(list);
     }
+
+    /**
+     * 获得所有Talent的Name
+     * 好像没用到
+     * @return
+     */
     @GetMapping("/getTalentType")
     public Result getAllTalentTypeName(){
         List<String> list= workService.getAllTalentTypeName();
         return Result.success(list);
     }
+
+    /**
+     * 用于筛选，选中talentId的所有work
+     * @param onesWorkCardByTalentIdsDO
+     * @return
+     */
     @PostMapping("/getOnesWorkcardsByTalentIds")
     public Result getWorkcardsByTalentIds(@RequestBody OnesWorkCardByTalentIdsDO onesWorkCardByTalentIdsDO) {
 
@@ -66,15 +90,30 @@ public class WorkContorller {
             return Result.error("服务器内部错误");
         }
     }
+
+    /**
+     * 发布Work
+     * @param title
+     * @param introduction
+     * @param cover
+     * @param content
+     * @param poster
+     * @param needId
+     * @param partId
+     * @param talentIds
+     * @return
+     */
     @PostMapping("/postWork")
-    public Result savePostWork( @RequestParam("title") String title,
-                                @RequestParam("introduction") String introduction,
-                                @RequestParam(value = "cover",required = false) String cover, // 处理封面文件
-                                @RequestParam("content") String content,
-                                @RequestParam("poster") String poster,
-                                @RequestParam("needId") int needId,
-                                @RequestParam("partId") int partId,
-                                @RequestParam("talentIds") List<Integer> talentIds
+    public Result savePostWork(
+            @RequestParam("title") String title,
+            @RequestParam(value = "introduction",required = false) String introduction,
+            @RequestParam(value = "cover",required = false) String cover, // 处理封面文件
+            @RequestParam("content") String content,
+            @RequestParam("poster") String poster,
+            @RequestParam("needId") int needId,
+            @RequestParam("partId") int partId,
+            @RequestParam("talentIds") List<Integer> talentIds
+//            @RequestBody PostWorkDTO postWorkDTO
     ){
 
         PostWorkDTO postWorkDTO = PostWorkDTO.builder()
@@ -90,6 +129,8 @@ public class WorkContorller {
         workService.savePostWork(postWorkDTO);
         return Result.success();
     }
+
+
     @GetMapping("/getWorkDetailsByWorkId")
     public Result getWorkByWorkId(@RequestParam("workId") Integer workId){
         log.info("获取workId为{}的内容",workId);
@@ -125,5 +166,32 @@ public class WorkContorller {
         log.info("获取Work,workId:{}",workId);
         EditWorkVO editWorkVO = workService.getWorkAllByWorkId(workId);
         return Result.success(editWorkVO);
+    }
+
+    @PostMapping("/updateWork")
+    public Result updateWork(
+//            @RequestBody UpdateWorkDTO updateWorkDTO
+            @RequestParam("workId") int workId,
+            @RequestParam("title") String title,
+            @RequestParam(value = "introduction",required = false) String introduction,
+            @RequestParam(value = "cover",required = false) String cover, // 处理封面文件
+            @RequestParam("content") String content,
+            @RequestParam("needId") int needId,
+            @RequestParam("partId") int partId,
+            @RequestParam("talentIds") List<Integer> talentIds
+    ){
+        UpdateWorkDTO updateWorkDTO = UpdateWorkDTO.builder()
+                .workId(workId)
+                .title(title)
+                .introduction(introduction)
+                .cover(cover)
+                .content(content)
+                .needId(needId)
+                .partId(partId)
+                .talentIds(talentIds)
+                .postDate(LocalDate.now())
+                .build();
+        workService.updateWork(updateWorkDTO);
+        return Result.success("编辑成功");
     }
 }

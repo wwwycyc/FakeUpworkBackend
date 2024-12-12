@@ -14,7 +14,43 @@
         </foreach>
     </select>
 
-<!--    <select id="getOnesWorkcardsByTalentIds" resultType="com.wyc.pojo.Entity.WorkCard">-->
+<!--    <insert id="saveWork" parameterType="com.wyc.pojo.Entity.Work">-->
+<!--        INSERT INTO work-->
+<!--        (-->
+<!--        <trim prefix="" suffix="" suffixOverrides=",">-->
+<!--            <if test="title != null">title,</if>-->
+<!--            <if test="introduction != null">introduction,</if>-->
+<!--            <if test="cover != null">cover,</if>-->
+<!--            <if test="content != null">content,</if>-->
+<!--            <if test="poster != null">poster,</if>-->
+<!--            <if test="accepter != null">accepter,</if>-->
+<!--            <if test="postDate != null">post_date,</if>-->
+<!--            <if test="acceptDate != null">accept_date,</if>-->
+<!--            <if test="state != null">state,</if>-->
+<!--            <if test="partId != null">part_id,</if>-->
+<!--            <if test="needId != null">need_id</if>-->
+<!--        </trim>-->
+<!--        )-->
+<!--        VALUES-->
+<!--        (-->
+<!--        <trim prefix="" suffix="" suffixOverrides=",">-->
+<!--            <if test="title != null">#{title},</if>-->
+<!--            <if test="introduction != null">#{introduction},</if>-->
+<!--            <if test="cover != null">#{cover},</if>-->
+<!--            <if test="content != null">#{content},</if>-->
+<!--            <if test="poster != null">#{poster},</if>-->
+<!--            <if test="accepter != null">#{accepter},</if>-->
+<!--            <if test="postDate != null">#{postDate},</if>-->
+<!--            <if test="acceptDate != null">#{acceptDate},</if>-->
+<!--            <if test="state != null">#{state},</if>-->
+<!--            <if test="partId != null">#{partId},</if>-->
+<!--            <if test="needId != null">#{needId}</if>-->
+<!--        </trim>-->
+<!--        )-->
+<!--    </insert>-->
+
+
+    <!--    <select id="getOnesWorkcardsByTalentIds" resultType="com.wyc.pojo.Entity.WorkCard">-->
 <!--        SELECT workCard.*-->
 <!--        FROM workCard-->
 <!--        JOIN work_talent ON workCard.work_id = work_talent.work_id-->
@@ -44,5 +80,9 @@
             AND work.poster = #{username}
         </if>
     </select>
+
+<!--    <select id="updateWork" resultType="com.wyc.pojo.DTO.UpdateWorkDTO">-->
+<!--        -->
+<!--    </select>-->
 
 </mapper>
