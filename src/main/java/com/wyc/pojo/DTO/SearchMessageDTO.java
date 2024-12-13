@@ -1,4 +1,4 @@
-package com.wyc.pojo.Entity;
+package com.wyc.pojo.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,16 +6,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Message implements Serializable {
-    private int messageId;
+public class SearchMessageDTO implements Serializable {
     private String fromUsername;
     private String toUsername;
-    private String content;
-    private LocalDate latestDate;
 }

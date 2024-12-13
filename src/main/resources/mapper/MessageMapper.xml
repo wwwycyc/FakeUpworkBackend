@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wyc.server.mapper.MessageMapper">
+
+    <!-- 1. 根据 username 获取该用户的所有消息 -->
+    <select id="getMessageByUsername" resultType="com.wyc.pojo.Entity.Message">
+        SELECT m.*
+        FROM message m
+                 JOIN user_message um ON um.message_id = m.message_id
+        WHERE um.username = #{username};
+    </select>
+
+
+    <!-- 2. 根据 fromUsername 和 toUsername 获取 fromUsername 发给 toUsername 的消息 -->
+    <select id="getMessageSent" resultType="com.wyc.pojo.Entity.Message">
+        SELECT m.*
+        FROM message m
+                 JOIN user_message um ON um.message_id = m.message_id
+                 JOIN user u2 ON u2.username = m.to_username
+        WHERE um.username = #{fromUsername} AND u2.username = #{toUsername};
+    </select>
+
+
+    <!-- 3. 根据 fromUsername 和 toUsername 获取 toUsername 发给 fromUsername 的消息 -->
+    <select id="getMessageReceive" resultType="com.wyc.pojo.Entity.Message">
+        SELECT m.*
+        FROM message m
+                 JOIN user_message um ON um.message_id = m.message_id
+                 JOIN user u2 ON u2.username = m.from_username
+        WHERE um.username = #{toUsername} AND u2.username = #{fromUsername};
+    </select>
+
+
+    <select id="getMessageFromTo" resultType="com.wyc.pojo.Entity.Message">
+        SELECT m.*
+        FROM message m
+                 JOIN user_message um ON um.message_id = m.message_id
+        WHERE um.username = #{fromUsername}
+          AND (m.from_username = #{toUsername} OR m.to_username = #{toUsername});
+    </select>
+
+
+</mapper>

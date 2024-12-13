@@ -24,4 +24,6 @@ public class WorkCard implements Serializable {
     private LocalDate acceptDate;
     private int state;//1 accepted 0.not accepted
     private int talentId;
+    private int needId;
+    private int partId;
 }
