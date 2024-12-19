@@ -9,6 +9,5 @@ public interface UserService {
     void signup(UserSignUpDTO userSignUpDTO);
     void updatepersonaldate(User user);
     User getuserbyusername(String username);
-
     User updateResume(String content, String username);
 }

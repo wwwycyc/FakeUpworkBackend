@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.wyc</groupId>
 	<artifactId>backend</artifactId>
-	<version>0.0.5-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>backend</name>
 	<description>backend</description>
 	<url/>
@@ -103,7 +103,10 @@
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 			<scope>provided</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
